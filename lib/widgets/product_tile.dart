@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import '../providers/Categories.dart';
+import 'package:grocery_app/screens/product_description_screen.dart';
+import 'package:grocery_app/widgets/weight_dropdown.dart';
+import '../providers/Products.dart';
 
 class ProductTile extends StatefulWidget {
-  final Categories prod;
+  final Product prod;
   ProductTile(this.prod);
 
   @override
@@ -13,6 +15,14 @@ class _ProductTileState extends State<ProductTile> {
   @override
   var weight = ['100', '200', '300'];
   var selected = '100';
+  changeSel(val) {
+    print(val);
+    setState(() {
+      selected = val;
+    });
+  }
+
+  bool showDet = false;
   Widget build(BuildContext context) {
     return Container(
       height: MediaQuery.of(context).size.height * 0.15,
@@ -21,8 +31,20 @@ class _ProductTileState extends State<ProductTile> {
         elevation: 3,
         child: Row(
           children: [
-            Image.network(
-                "https://images-na.ssl-images-amazon.com/images/I/815XvUgtHHL._SX425_.jpg"),
+            GestureDetector(
+              onTap: () {
+                Navigator.of(context).pushNamed(
+                    ProductDescriptionScreen.routerName,
+                    arguments: widget.prod.id);
+              },
+              child: Hero(
+                tag: widget.prod.id,
+                child: Image.network(
+                  "https://images-na.ssl-images-amazon.com/images/I/815XvUgtHHL._SX425_.jpg",
+                  width: 120,
+                ),
+              ),
+            ),
             Column(
               children: [
                 Text(
@@ -37,57 +59,8 @@ class _ProductTileState extends State<ProductTile> {
               child: Column(
                 children: [
                   Padding(
-                      padding: const EdgeInsets.only(top:2.0),
-                      child: DropdownButton(
-                        iconSize: 0,
-                        selectedItemBuilder: (BuildContext context) {
-                          return weight.map<Widget>((String item) {
-                            return Row(
-                              children: [
-                                Container(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 20, vertical: 7),
-                                  child: Text(
-                                    item + "g",
-                                    style:
-                                        Theme.of(context).textTheme.bodyText2,
-                                  ),
-                                  decoration: BoxDecoration(
-                                    border: Border.all(
-                                      color: Theme.of(context).primaryColor,
-                                    ),
-                                    borderRadius: BorderRadius.only(
-                                      topLeft: Radius.circular(4),
-                                      bottomLeft: Radius.circular(4),
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  decoration: BoxDecoration(
-                                    color: Theme.of(context).primaryColor,
-                                    borderRadius: BorderRadius.only(
-                                      topRight: Radius.circular(4),
-                                      bottomRight: Radius.circular(4),
-                                    ),
-                                  ),
-                                  padding: EdgeInsets.all(2),
-                                  child: Icon(
-                                    Icons.arrow_drop_down,
-                                    color: Colors.white,
-                                    size: 30,
-                                  ),
-                                )
-                              ],
-                            );
-                          }).toList();
-                        },
-                        value: selected,
-                        onChanged: (value) => setState(() => selected = value),
-                        items: weight
-                            .map((e) =>
-                                DropdownMenuItem(value: e, child: Text(e)))
-                            .toList(),
-                      )),
+                      padding: const EdgeInsets.only(top: 2.0),
+                      child: WeightDropDown(weight, selected, changeSel)),
                   RaisedButton(
                     color: Colors.indigo,
                     textColor: Colors.white,
@@ -103,3 +76,5 @@ class _ProductTileState extends State<ProductTile> {
     );
   }
 }
+
+

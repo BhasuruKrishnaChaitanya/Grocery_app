@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import '../providers/Categories.dart';
+import 'package:provider/provider.dart';
+import '../providers/Products.dart';
 import '../widgets/add_container.dart';
 import '../widgets/product_tile.dart';
 import '../widgets/categories_card.dart';
+import 'package:velocity_x/velocity_x.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -10,19 +12,21 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  List<Categories> products = [
-    Categories(imagesrc: '1.png', name: 'Kurkure'),
-    Categories(imagesrc: '2.png', name: 'b'),
-    Categories(imagesrc: '3.png', name: 'c'),
-    Categories(imagesrc: '4.png', name: 'd'),
-    Categories(imagesrc: '4.png', name: 'd'),
-    Categories(imagesrc: '4.png', name: 'd'),
-  ];
   @override
   Widget build(BuildContext context) {
+    var products = Provider.of<ProductsProvider>(context).products;
     return Scaffold(
       appBar: AppBar(
-        leading: Icon(Icons.menu),
+        leading: GestureDetector(
+            onTap: (){},
+            child: VStack([
+                VxBox().size(27, 3).white.make(),
+                5.heightBox,
+                VxBox().size(40, 3).white.make(),
+                5.heightBox,
+                VxBox().size(20, 3).white.make()
+              ]).p12(),
+          ),
         title: Text('MyApp'),
         actions: <Widget>[
           Padding(
@@ -34,16 +38,18 @@ class _HomeState extends State<Home> {
           preferredSize: const Size.fromHeight(70.0),
           child: Padding(
             padding: EdgeInsets.fromLTRB(40.0, 0.0, 40.0, 5.0),
-            child: TextField(
+            child: TextFormField(
+              
               expands: false,
               decoration: InputDecoration(
+                fillColor: Colors.white,
+                filled: true,
                   border: OutlineInputBorder(),
                   hintText: 'Enter a search term'),
             ),
           ),
         ),
       ),
-    
       body: SingleChildScrollView(
         child: Column(
           // crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -65,7 +71,9 @@ class _HomeState extends State<Home> {
               child: GridView.builder(
                 scrollDirection: Axis.horizontal,
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  childAspectRatio: MediaQuery.of(context).size.width/MediaQuery.of(context).size.width*0.55,
+                  childAspectRatio: MediaQuery.of(context).size.width /
+                      MediaQuery.of(context).size.width *
+                      0.55,
                   crossAxisCount: 2,
                   crossAxisSpacing: 3,
                   mainAxisSpacing: 3,

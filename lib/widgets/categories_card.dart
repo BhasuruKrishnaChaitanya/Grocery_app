@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import '../providers/Categories.dart';
+import '../providers/Products.dart';
 
 class CategoriesCard extends StatelessWidget {
-  final Categories product;
+  final Product product;
   CategoriesCard({this.product});
 
   @override
