@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:grocery_app/providers/categories.dart';
+import 'package:grocery_app/screens/cart_screen.dart';
 import 'package:provider/provider.dart';
 import '../providers/Products.dart';
 import '../widgets/add_container.dart';
@@ -15,23 +17,29 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     var products = Provider.of<ProductsProvider>(context).products;
+    var categories = Provider.of<CategoriesProvider>(context).categories;
     return Scaffold(
       appBar: AppBar(
         leading: GestureDetector(
-            onTap: (){},
-            child: VStack([
-                VxBox().size(27, 3).white.make(),
-                5.heightBox,
-                VxBox().size(40, 3).white.make(),
-                5.heightBox,
-                VxBox().size(20, 3).white.make()
-              ]).p12(),
-          ),
+          onTap: () {},
+          child: VStack([
+            VxBox().size(27, 3).white.make(),
+            5.heightBox,
+            VxBox().size(40, 3).white.make(),
+            5.heightBox,
+            VxBox().size(20, 3).white.make()
+          ]).p12(),
+        ),
         title: Text('MyApp'),
         actions: <Widget>[
           Padding(
             padding: EdgeInsets.only(right: 20.0),
-            child: Icon(Icons.shopping_cart),
+            child: IconButton(
+              icon: Icon(Icons.shopping_cart),
+              onPressed: () {
+                Navigator.of(context).pushNamed(CartScreen.routeName);
+              },
+            ),
           ),
         ],
         bottom: PreferredSize(
@@ -39,11 +47,10 @@ class _HomeState extends State<Home> {
           child: Padding(
             padding: EdgeInsets.fromLTRB(40.0, 0.0, 40.0, 5.0),
             child: TextFormField(
-              
               expands: false,
               decoration: InputDecoration(
-                fillColor: Colors.white,
-                filled: true,
+                  fillColor: Colors.white,
+                  filled: true,
                   border: OutlineInputBorder(),
                   hintText: 'Enter a search term'),
             ),
@@ -80,10 +87,10 @@ class _HomeState extends State<Home> {
                 ),
                 itemBuilder: (context, index) {
                   return CategoriesCard(
-                    product: products[index],
+                    category: categories[index],
                   );
                 },
-                itemCount: products.length,
+                itemCount: categories.length,
               ),
             ),
             // Expanded(
@@ -94,7 +101,8 @@ class _HomeState extends State<Home> {
               shrinkWrap: true,
               itemCount: products.length,
               itemBuilder: (context, index) {
-                return ProductTile(products[index]);
+                return ProductTile(
+                    products[index], products[index].quantity[0]);
               },
             ),
           ],

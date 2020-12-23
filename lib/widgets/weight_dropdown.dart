@@ -16,7 +16,7 @@ class WeightDropDown extends StatelessWidget {
                 padding:
                     const EdgeInsets.symmetric(horizontal: 20, vertical: 7),
                 child: Text(
-                  item + "g",
+                  item,
                   style: Theme.of(context).textTheme.bodyText2,
                 ),
                 decoration: BoxDecoration(

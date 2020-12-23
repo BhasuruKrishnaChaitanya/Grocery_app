@@ -1,31 +1,33 @@
 import 'package:flutter/material.dart';
+import 'package:grocery_app/providers/categories.dart';
+import 'package:provider/provider.dart';
 import '../providers/Products.dart';
 
 class CategoriesCard extends StatelessWidget {
-  final Product product;
-  CategoriesCard({this.product});
+  final Category category;
+  CategoriesCard({this.category});
 
   @override
   Widget build(BuildContext context) {
     return Container(
       child: Card(
-          color: Colors.indigo,
+          
           margin: EdgeInsets.fromLTRB(6.0, 6.0, 6.0, 0.0),
-          child: Padding(
-            padding: const EdgeInsets.all(12.0),
-            child: Column(
-              children: <Widget>[
-                Text(product.imagesrc,
-                    style: TextStyle(
-                      fontSize: 18.0,
-                      color: Colors.white,
-                    )),
-                Text(product.name,
-                    style: TextStyle(
-                      fontSize: 14.0,
-                      color: Colors.grey[800],
-                    )),
-              ],
+          child: Container(
+            decoration: BoxDecoration(gradient: LinearGradient(begin: Alignment.topLeft,end: Alignment.bottomRight,colors: [Colors.indigo[600],Colors.red[600]]),borderRadius: BorderRadius.circular(8)),
+            child: Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: Column(
+                children: <Widget>[
+                  Text(category.name,
+                  textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 18.0,
+                        color: Colors.white,
+                      )),
+                  
+                ],
+              ),
             ),
           )),
     );
