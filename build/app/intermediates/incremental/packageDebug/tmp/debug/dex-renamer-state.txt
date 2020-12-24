@@ -1,4 +1,4 @@
-#Wed Dec 09 22:54:11 IST 2020
-base.0=/Users/prashanthannam/flutter_course/kc_proj/Grocery_app/build/app/intermediates/dex/debug/mergeDexDebug/out/classes.dex
+#Thu Dec 24 13:54:32 IST 2020
+base.0=C\:\\Users\\BHASURU\\Desktop\\All\\Stu\\Grocery_app\\build\\app\\intermediates\\dex\\debug\\mergeDexDebug\\out\\classes.dex
 path.0=classes.dex
 renamed.0=classes.dex
