@@ -29,11 +29,9 @@ class Cart with ChangeNotifier {
     if (_items.containsKey(id)) {
       return _items[id].count;
     }
-    
+
     return 0;
   }
-
-
 
   void addToCart(String id, String title, String quantity) {
     if (_items.containsKey(id)) {

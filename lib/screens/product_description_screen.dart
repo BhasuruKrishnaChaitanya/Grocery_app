@@ -1,7 +1,9 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:grocery_app/providers/Cart.dart';
 import 'package:grocery_app/providers/Products.dart';
+import 'package:grocery_app/providers/categories.dart';
 import 'package:grocery_app/widgets/weight_dropdown.dart';
 import 'package:provider/provider.dart';
 
@@ -13,19 +15,22 @@ class ProductDescriptionScreen extends StatefulWidget {
 }
 
 class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
-  @override
-  String selected = "100";
-  var weight = ['100 gm', '200 gm', '300 gm', '400 gm', '500 gm'];
-  changeSel(val) {
-    print(val);
-    setState(() {
-      selected = val;
-    });
-  }
+  // String selected = 0;
+    var selected = 0;
 
+  @override
   Widget build(BuildContext context) {
     final String id = ModalRoute.of(context).settings.arguments;
     var product = Provider.of<ProductsProvider>(context).findProduct(id);
+    var category = Provider.of<CategoriesProvider>(context);
+    var cart = Provider.of<Cart>(context);
+    var weight = product.quantity;
+    changeSel(val) {
+      print(val);
+      setState(() {
+        selected = val;
+      });
+    }
 
     return Scaffold(
       appBar: AppBar(
@@ -33,13 +38,13 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
       ),
       body: Container(
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 10),
+          padding: const EdgeInsets.only(top: 10),
           child: Center(
             child: Column(
               // crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
-                  'Snacks: Kurkure',
+                  "${category.getCatName(product.categoryid)} : ${product.name}",
                   style: Theme.of(context).textTheme.headline5,
                 ),
                 Padding(
@@ -47,7 +52,7 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
                   child: Hero(
                     tag: product.id,
                     child: Image.network(
-                      "https://images-na.ssl-images-amazon.com/images/I/815XvUgtHHL._SX425_.jpg",
+                      product.imagesrc,
                       height: MediaQuery.of(context).size.height * 0.45,
                     ),
                   ),
@@ -62,19 +67,33 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
                       itemCount: weight.length,
                       itemBuilder: (BuildContext context, int index) {
                         return Container(
-                          width: MediaQuery.of(context).size.height * 0.12,
+                          width: MediaQuery.of(context).size.width * 0.32,
                           // height: 2,
                           // color: Colors.amber[colorCodes[index]],
                           child: Center(
-                              child: OutlineButton(
-                            borderSide: BorderSide(
-                              color: Colors.indigo[600],
-                            ),
-                            onPressed: () {
-                              print('Received click');
-                            },
-                            child: Text('${weight[index]}'),
-                          )),
+                              child: selected == index
+                                  ? Container(
+                                      child: FlatButton(
+                                        color: Theme.of(context).primaryColor,
+                                        onPressed: () {
+                                          changeSel(index);
+                                        },
+                                        child: Text(
+                                          '${weight[index]}',
+                                          style: TextStyle(color: Colors.white),
+                                        ),
+                                      ),
+                                    )
+                                  : OutlineButton(
+                                      borderSide: BorderSide(
+                                        width: 2,
+                                        color: Theme.of(context).primaryColor,
+                                      ),
+                                      onPressed: () {
+                                        changeSel(index);
+                                      },
+                                      child: Text('${weight[index]}'),
+                                    )),
                         );
                       }),
                 ),
@@ -86,12 +105,83 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
                     )),
                 Align(
                   alignment: Alignment.bottomCenter,
+                  child:cart.particularItemCount(product.id) == 0
+            ? Padding(
+                padding: const EdgeInsets.only(top:8.0),
+                
                   child: RaisedButton(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(5)),
                     color: Colors.indigo,
                     textColor: Colors.white,
                     child: Text("ADD TO CART"),
-                    onPressed: () {},
+                    onPressed: () {
+                      cart.addToCart(
+                          product.id, product.name, weight[selected]);
+                      // Scaffold.of(context).hideCurrentSnackBar();
+                      // Scaffold.of(context).showSnackBar(SnackBar(
+                      //   content: Text("Item Added to Cart"),
+                      //   duration: Duration(seconds: 2),
+                      //   action: SnackBarAction(
+                      //     label: "UNDO",
+                      //     onPressed: () {
+                      //       cart.removeFromCart(product.id);
+                      //     },
+                      //   ),
+                      // ));
+                    },
                   ),
+                
+              )
+            : Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ButtonBar(
+                    children: [
+                      Container(
+                        width: 50,
+                        child: FlatButton(
+                          materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                          color: Theme.of(context).primaryColor,
+                          onPressed: () {
+                            cart.removeFromCart(product.id);
+                          },
+                          child: Text(
+                            "-",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 30,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      ),
+                      FittedBox(
+                        child: Text(
+                          cart.particularItemCount(product.id).toString(),
+                          style: Theme.of(context).textTheme.headline6,
+                        ),
+                      ),
+                      Container(
+                        width: 50,
+                        child: RaisedButton(
+                          color: Theme.of(context).primaryColor,
+                          onPressed: () {
+                            cart.addToCart(
+                                product.id, product.name, weight[selected]);
+                          },
+                          child: Text(
+                            "+",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 25,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+              ],
+            ),
                 ),
               ],
             ),

@@ -3,6 +3,7 @@ import 'package:grocery_app/providers/Cart.dart';
 import 'package:grocery_app/providers/Products.dart';
 import 'package:grocery_app/providers/categories.dart';
 import 'package:grocery_app/screens/cart_screen.dart';
+import 'package:grocery_app/screens/category_screen.dart';
 import 'package:grocery_app/screens/product_description_screen.dart';
 import 'package:provider/provider.dart';
 import './screens/home_screen.dart';
@@ -31,6 +32,7 @@ class _MyAppState extends StatelessWidget {
           ProductDescriptionScreen.routerName: (ctx) =>
               ProductDescriptionScreen(),
           CartScreen.routeName:(ctx)=>CartScreen(),
+          CatScreen.routeName:(ctx)=>CatScreen(),
         },
       ),
     );

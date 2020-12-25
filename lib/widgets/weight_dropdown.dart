@@ -14,10 +14,16 @@ class WeightDropDown extends StatelessWidget {
             children: [
               Container(
                 padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 7),
-                child: Text(
-                  item,
-                  style: Theme.of(context).textTheme.bodyText2,
+                    const EdgeInsets.symmetric(horizontal: 10, vertical: 7),
+                child: SizedBox(
+                  width: 35,
+                  height: 17,
+                  child: FittedBox(
+                                    child: Text(
+                      item,overflow: TextOverflow.ellipsis,
+                      style: Theme.of(context).textTheme.bodyText2,
+                    ),
+                  ),
                 ),
                 decoration: BoxDecoration(
                   border: Border.all(

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:grocery_app/providers/Cart.dart';
 import 'package:grocery_app/providers/categories.dart';
 import 'package:grocery_app/screens/cart_screen.dart';
+import 'package:grocery_app/widgets/badge.dart';
+import 'package:grocery_app/widgets/main_drawer.dart';
 import 'package:provider/provider.dart';
 import '../providers/Products.dart';
 import '../widgets/add_container.dart';
@@ -16,37 +19,58 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
+    var searchTerm=new TextEditingController();
     var products = Provider.of<ProductsProvider>(context).products;
     var categories = Provider.of<CategoriesProvider>(context).categories;
     return Scaffold(
+
+      drawer: Drawer(
+        child: MainDrawer(),
+      ),
       appBar: AppBar(
-        leading: GestureDetector(
-          onTap: () {},
-          child: VStack([
-            VxBox().size(27, 3).white.make(),
-            5.heightBox,
-            VxBox().size(40, 3).white.make(),
-            5.heightBox,
-            VxBox().size(20, 3).white.make()
-          ]).p12(),
-        ),
+        leading:
+         Builder(
+      builder: (BuildContext context) {
+        return GestureDetector(
+          onTap: () {
+            Scaffold.of(context).openDrawer();
+          },
+          child: Container(
+            child: VStack([
+              VxBox().size(27, 3).white.make(),
+              5.heightBox,
+              VxBox().size(40, 3).white.make(),
+              5.heightBox,
+              VxBox().size(20, 3).white.make()
+            ]).p12(),
+          ),
+        );
+      },
+         ),
         title: Text('MyApp'),
         actions: <Widget>[
           Padding(
-            padding: EdgeInsets.only(right: 20.0),
-            child: IconButton(
-              icon: Icon(Icons.shopping_cart),
-              onPressed: () {
-                Navigator.of(context).pushNamed(CartScreen.routeName);
-              },
-            ),
-          ),
+              padding: EdgeInsets.only(right: 20.0),
+              child: Consumer<Cart>(
+                builder: (_, cart, ch) => Badge(
+                  child: ch,
+                  value: cart.itemCount.toString(),
+                  color: Colors.deepOrange,
+                ),
+                child: IconButton(
+                  icon: Icon(Icons.shopping_cart),
+                  onPressed: () {
+                    Navigator.pushNamed(context, CartScreen.routeName);
+                  },
+                ),
+              )),
         ],
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(70.0),
           child: Padding(
             padding: EdgeInsets.fromLTRB(40.0, 0.0, 40.0, 5.0),
             child: TextFormField(
+              controller: searchTerm,
               expands: false,
               decoration: InputDecoration(
                   fillColor: Colors.white,
