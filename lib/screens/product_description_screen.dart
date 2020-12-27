@@ -16,7 +16,7 @@ class ProductDescriptionScreen extends StatefulWidget {
 
 class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
   // String selected = 0;
-    var selected = 0;
+  var selected = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -105,83 +105,105 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
                     )),
                 Align(
                   alignment: Alignment.bottomCenter,
-                  child:cart.particularItemCount(product.id) == 0
-            ? Padding(
-                padding: const EdgeInsets.only(top:8.0),
-                
-                  child: RaisedButton(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(5)),
-                    color: Colors.indigo,
-                    textColor: Colors.white,
-                    child: Text("ADD TO CART"),
-                    onPressed: () {
-                      cart.addToCart(
-                          product.id, product.name, weight[selected]);
-                      // Scaffold.of(context).hideCurrentSnackBar();
-                      // Scaffold.of(context).showSnackBar(SnackBar(
-                      //   content: Text("Item Added to Cart"),
-                      //   duration: Duration(seconds: 2),
-                      //   action: SnackBarAction(
-                      //     label: "UNDO",
-                      //     onPressed: () {
-                      //       cart.removeFromCart(product.id);
-                      //     },
-                      //   ),
-                      // ));
-                    },
-                  ),
-                
-              )
-            : Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                ButtonBar(
-                    children: [
-                      Container(
-                        width: 50,
-                        child: FlatButton(
-                          materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                          color: Theme.of(context).primaryColor,
-                          onPressed: () {
-                            cart.removeFromCart(product.id);
-                          },
-                          child: Text(
-                            "-",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 30,
-                                fontWeight: FontWeight.bold),
+                  child: cart.particularItemCount(product.id) == 0
+                      ? Padding(
+                          padding: const EdgeInsets.only(top: 0.0),
+                          child: RaisedButton(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(5)),
+                            color: Colors.indigo,
+                            textColor: Colors.white,
+                            child: Text("ADD TO CART"),
+                            onPressed: () {
+                              cart.addToCart(
+                                  product.id, product.name, weight[selected]);
+                              // Scaffold.of(context).hideCurrentSnackBar();
+                              // Scaffold.of(context).showSnackBar(SnackBar(
+                              //   content: Text("Item Added to Cart"),
+                              //   duration: Duration(seconds: 2),
+                              //   action: SnackBarAction(
+                              //     label: "UNDO",
+                              //     onPressed: () {
+                              //       cart.removeFromCart(product.id);
+                              //     },
+                              //   ),
+                              // ));
+                            },
+                          ),
+                        )
+                      : Padding(
+                          padding: const EdgeInsets.only(top: 5.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  cart.removeFromCart(product.id);
+                                },
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(5),
+                                        bottomLeft: Radius.circular(5)),
+                                    color: Theme.of(context).primaryColor,
+                                  ),
+                                  margin: EdgeInsets.all(0),
+                                  padding: EdgeInsets.symmetric(horizontal: 10),
+                                  width: 30,
+                                  child: Text(
+                                    "-",
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 30,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                              ),
+                              Container(
+                                margin: EdgeInsets.all(0),
+                                padding: EdgeInsets.symmetric(
+                                    vertical: 4.5, horizontal: 8),
+                                decoration: BoxDecoration(
+                                    border: Border.all(
+                                        color: Theme.of(context).primaryColor,
+                                        width: 1.5)),
+                                child: FittedBox(
+                                  child: Text(
+                                    cart
+                                        .particularItemCount(product.id)
+                                        .toString(),
+                                    style:
+                                        Theme.of(context).textTheme.headline6,
+                                  ),
+                                ),
+                              ),
+                              GestureDetector(
+                                onTap: () {
+                                  cart.addToCart(product.id, product.name, "");
+                                },
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.only(
+                                        topRight: Radius.circular(5),
+                                        bottomRight: Radius.circular(5)),
+                                    color: Theme.of(context).primaryColor,
+                                  ),
+                                  margin: EdgeInsets.all(0),
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: 5, vertical: 3),
+                                  width: 30,
+                                  child: Text(
+                                    "+",
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 25,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
-                      ),
-                      FittedBox(
-                        child: Text(
-                          cart.particularItemCount(product.id).toString(),
-                          style: Theme.of(context).textTheme.headline6,
-                        ),
-                      ),
-                      Container(
-                        width: 50,
-                        child: RaisedButton(
-                          color: Theme.of(context).primaryColor,
-                          onPressed: () {
-                            cart.addToCart(
-                                product.id, product.name, weight[selected]);
-                          },
-                          child: Text(
-                            "+",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 25,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-              ],
-            ),
                 ),
               ],
             ),

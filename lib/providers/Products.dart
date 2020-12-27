@@ -82,4 +82,9 @@ class ProductsProvider with ChangeNotifier {
   List<Product> getProductsByCat(id) {
     return _products.where((element) => element.categoryid == id).toList();
   }
+
+  List<Product> searchProducts(String term) {
+    
+    return term.length==0?[]:_products.where((element) => element.name.toLowerCase().startsWith(term.toLowerCase())).toList();
+  }
 }

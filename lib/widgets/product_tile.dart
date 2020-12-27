@@ -34,7 +34,6 @@ class _ProductTileState extends State<ProductTile> {
           height: MediaQuery.of(context).size.height * 0.17,
           margin: EdgeInsets.all(5),
           child: Card(
-            
             elevation: 1,
             child: Row(
               children: [
@@ -52,147 +51,164 @@ class _ProductTileState extends State<ProductTile> {
                     ),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 5),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 10.0),
-                        child: Text(
-                          widget.prod.name,
-                          style: Theme.of(context).textTheme.headline5,
+                Container(
+                  width: MediaQuery.of(context).size.width * 0.64,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 5),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 10.0),
+                          child: Text(
+                            widget.prod.name,
+                            style: Theme.of(context).textTheme.headline5,
+                          ),
                         ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 10.0),
-                        child: Text(
-                          categories.getCatName(widget.prod.categoryid),
-                          style: TextStyle(color: Colors.grey, fontSize: 18),
+                        Padding(
+                          padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 10.0),
+                          child: Text(
+                            categories.getCatName(widget.prod.categoryid),
+                            style: TextStyle(color: Colors.grey, fontSize: 18),
+                          ),
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(right: 0.0),
-                        child: Container(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              WeightDropDown(widget.prod.quantity,
-                                      widget.selected, changeSel),
-                              SizedBox(
-                                width: MediaQuery.of(context).size.width * 0.05,
-                              ),
-                              // Sp/acer(),
-                              cart.particularItemCount(widget.prod.id) == 0
-                                  ? Padding(
-                                      padding: const EdgeInsets.all(0.0),
-                                      child: RaisedButton.icon(
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(5)),
-                                        color: Colors.indigo,
-                                        textColor: Colors.white,
-                                        icon: Icon(Icons.add_shopping_cart),
-                                        label: Text("ADD"),
-                                        onPressed: () {
-                                          cart.addToCart(widget.prod.id,
-                                              widget.prod.name, widget.selected);
-                                          Scaffold.of(context)
-                                              .hideCurrentSnackBar();
-                                          Scaffold.of(context)
-                                              .showSnackBar(SnackBar(
-                                            content: Text("Item Added to Cart"),
-                                            duration: Duration(seconds: 2),
-                                            action: SnackBarAction(
-                                              label: "UNDO",
-                                              onPressed: () {
-                                                cart.removeFromCart(
-                                                    widget.prod.id);
-                                              },
-                                            ),
-                                          ));
-                                        },
-                                      ),
-                                    )
-                                  : Row(
-                                      children: [
-                                        GestureDetector(
-                                          onTap: () {
-                                            cart.removeFromCart(widget.prod.id);
+                        Padding(
+                          padding: const EdgeInsets.only(right: 0.0),
+                          child: Container(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                WeightDropDown(widget.prod.quantity,
+                                    widget.selected, changeSel),
+                                SizedBox(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.05,
+                                ),
+                                // Sp/acer(),
+                                cart.particularItemCount(widget.prod.id) == 0
+                                    ? Padding(
+                                        padding: const EdgeInsets.all(0.0),
+                                        child: RaisedButton.icon(
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(5)),
+                                          color: Colors.indigo,
+                                          textColor: Colors.white,
+                                          icon: Icon(Icons.add_shopping_cart),
+                                          label: Text("ADD"),
+                                          onPressed: () {
+                                            cart.addToCart(
+                                                widget.prod.id,
+                                                widget.prod.name,
+                                                widget.selected);
+                                            Scaffold.of(context)
+                                                .hideCurrentSnackBar();
+                                            Scaffold.of(context)
+                                                .showSnackBar(SnackBar(
+                                              content:
+                                                  Text("Item Added to Cart"),
+                                              duration: Duration(seconds: 2),
+                                              action: SnackBarAction(
+                                                label: "UNDO",
+                                                onPressed: () {
+                                                  cart.removeFromCart(
+                                                      widget.prod.id);
+                                                },
+                                              ),
+                                            ));
                                           },
-                                          child: Container(
-                                            decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.only(topLeft: Radius.circular(5),bottomLeft: Radius.circular(5)),
-                                              color:
-                                                  Theme.of(context).primaryColor,
+                                        ),
+                                      )
+                                    : Row(
+                                        children: [
+                                          GestureDetector(
+                                            onTap: () {
+                                              cart.removeFromCart(
+                                                  widget.prod.id);
+                                            },
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.only(
+                                                    topLeft: Radius.circular(5),
+                                                    bottomLeft:
+                                                        Radius.circular(5)),
+                                                color: Theme.of(context)
+                                                    .primaryColor,
+                                              ),
+                                              margin: EdgeInsets.all(0),
+                                              padding: EdgeInsets.symmetric(
+                                                  horizontal: 10),
+                                              width: 30,
+                                              child: Text(
+                                                "-",
+                                                style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 30,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
                                             ),
+                                          ),
+                                          Container(
                                             margin: EdgeInsets.all(0),
                                             padding: EdgeInsets.symmetric(
-                                                horizontal: 10),
-                                            width: 30,
-                                            child: Text(
-                                              "-",
-                                              style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 30,
-                                                  fontWeight: FontWeight.bold),
+                                                vertical: 4.5, horizontal: 8),
+                                            decoration: BoxDecoration(
+                                                border: Border.all(
+                                                    color: Theme.of(context)
+                                                        .primaryColor,
+                                                    width: 1.5)),
+                                            child: FittedBox(
+                                              child: Text(
+                                                cart
+                                                    .particularItemCount(
+                                                        widget.prod.id)
+                                                    .toString(),
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .headline6,
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                        Container(
-                                          margin: EdgeInsets.all(0),
-                                          padding: EdgeInsets.symmetric(
-                                              vertical: 4, horizontal: 8),
-                                          decoration: BoxDecoration(
-                                              border: Border.all(
-                                                  color: Theme.of(context)
-                                                      .primaryColor,
-                                                  width: 2)),
-                                          child: FittedBox(
-                                            child: Text(
-                                              cart
-                                                  .particularItemCount(
-                                                      widget.prod.id)
-                                                  .toString(),
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .headline6,
-                                            ),
-                                          ),
-                                        ),
-                                        GestureDetector(
-                                         onTap: () {
+                                          GestureDetector(
+                                            onTap: () {
                                               cart.addToCart(
                                                   widget.prod.id,
                                                   widget.prod.name,
                                                   widget.selected);
                                             },
-                                          child: Container(
-                                            decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.only(topRight: Radius.circular(5),bottomRight: Radius.circular(5)),
-                                              color:
-                                                  Theme.of(context).primaryColor,
-                                            ),
-                                            margin: EdgeInsets.all(0),
-                                            padding: EdgeInsets.symmetric(
-                                                horizontal: 5,vertical: 3),
-                                            width: 30,
-                                            child: Text(
-                                              "+",
-                                              style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 25,
-                                                  fontWeight: FontWeight.bold),
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.only(
+                                                    topRight:
+                                                        Radius.circular(5),
+                                                    bottomRight:
+                                                        Radius.circular(5)),
+                                                color: Theme.of(context)
+                                                    .primaryColor,
+                                              ),
+                                              margin: EdgeInsets.all(0),
+                                              padding: EdgeInsets.symmetric(
+                                                  horizontal: 5, vertical: 3),
+                                              width: 30,
+                                              child: Text(
+                                                "+",
+                                                style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 25,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                      ],
-                                    ),
-                            ],
+                                        ],
+                                      ),
+                              ],
+                            ),
                           ),
-                        ),
-                      )
-                    ],
+                        )
+                      ],
+                    ),
                   ),
                 ),
               ],
